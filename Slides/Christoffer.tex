@@ -11,28 +11,46 @@
 \begin{frame}{}
 \begin{itemize}
   \item The tasks of our program
+  		\begin{enumerate}
+  			\item What is each tasks purpose
+  			\item Key implementation points of each task
+  			\item Why they are implemented as they are  
+		\end{enumerate}
   \item Unit tests
-  \item Test of turret
+  		\begin{enumerate}
+  			\item How have we unit tested
+  			\item The framework
+  			\item The results of the test
+		\end{enumerate}
+  \item Test of turrets hardware
+  		\begin{enumerate}
+  			\item 
+		\end{enumerate}
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Tasks}
-\only<1,3,5,7>{
+\subsection{Tasks}
+\begin{frame}{Tasks}
 \begin{itemize}
-	\item 3 tasks
+  \item Track
+  \item GetDataAndCalculate
+  \item WaitAndFire
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Track}
+\only<1-3>{
+\begin{itemize}
+  \item Pupose
+  	\only<2>{
   	\begin{itemize}
-  		\item Track
-  		\item GetDataAndCalculate
-  		\item WaitAndFire
-	\end{itemize}
+  		\item 
+  	\end{itemize}
+  	}
+  \only<3>{\item Key implementation points}
 \end{itemize}
 }
-\only<2>{Track}
-\only<4>{GetDataAndCalculate}
-\only<6>{WaitAndFire}
-\end{frame}
-
-\begin{frame}[fragile]{Code - Track}
+\begin{onlyenv}<4>
 \begin{center}
 \begin{minipage}[H]{0.9\linewidth}
 \begin{lstlisting}
@@ -50,4 +68,67 @@ int directionCount = 0; //How many times have we seen movement in a direction
 \end{lstlisting} 
 \end{minipage}
 \end{center}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile]{GetDataAndCalculate}
+\only<1-3>{
+\begin{itemize}
+  \item Pupose
+  	\only<2>{
+  	\begin{itemize}
+  		\item 
+  	\end{itemize}
+  	}
+  \only<3>{\item Key implementation points}
+\end{itemize}
+}
+\begin{onlyenv}<4>
+\begin{center}
+\begin{minipage}[H]{0.9\linewidth}
+\begin{lstlisting}
+
+\end{lstlisting} 
+\end{minipage}
+\end{center}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile]{WaitAndFire}
+\only<1-3>{
+\begin{itemize}
+  \item Pupose
+  	\only<2>{
+  	\begin{itemize}
+  		\item 
+  	\end{itemize}
+  	}
+  \only<3>{\item Key implementation points}
+\end{itemize}
+}
+\begin{onlyenv}<4>
+\begin{center}
+\begin{minipage}[H]{0.9\linewidth}
+\begin{lstlisting}
+
+\end{lstlisting} 
+\end{minipage}
+\end{center}
+\end{onlyenv}
+\end{frame}
+
+\subsection{Unit test}
+\begin{frame}{Unit test}
+\begin{itemize}
+  \only<1>{\item How have we tested}
+  \only<2>{\item No framework}
+  \only<3>{\item Results} 
+\end{itemize}
+\end{frame}
+
+\subsection{Hardware tests}
+\begin{frame}{Hardware tests}
+\begin{itemize}
+  \only<1>{\item } 
+\end{itemize}
 \end{frame}
