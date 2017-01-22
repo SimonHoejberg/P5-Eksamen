@@ -32,10 +32,43 @@
 \subsection{Tasks}
 \begin{frame}{Tasks}
 \begin{itemize}
+  \item Main
   \item Track
   \item GetDataAndCalculate
   \item WaitAndFire
 \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Main}
+\only<1-3>{
+\begin{itemize}
+  \item Pupose
+  	\only<2>{
+  	\begin{itemize}
+  		\item Start tasks
+  		\item Setup
+  	\end{itemize}
+  	}
+  \only<3>{\item Key implementation points}
+\end{itemize}
+}
+\begin{onlyenv}<4>
+\begin{center}
+\begin{minipage}[H]{0.9\linewidth}
+\begin{lstlisting}
+PosRegEnable(ROTATE_MOTOR);
+PosRegEnable(ANGLE_MOTOR);
+SetMotorRegulationTime(10);
+NXTCam_Init(CAM_PORT, CAM_ADDR);
+NXTCam_SendCommand(CAM_PORT, CAM_ADDR, 'A'); 
+NXTCam_SendCommand(CAM_PORT, CAM_ADDR, 'E');
+SetSensorUltrasonic(SENSOR_LEFT);
+SetSensorUltrasonic(SENSOR_RIGHT);
+Precedes(Track,GetDataAndCalculate);
+\end{lstlisting} 
+\end{minipage}
+\end{center}
+\end{onlyenv}
 \end{frame}
 
 \begin{frame}[fragile]{Track}
