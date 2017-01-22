@@ -22,7 +22,7 @@
   			\item The framework
   			\item The results of the test
 		\end{enumerate}
-  \item Test of turrets hardware
+  \item The final test of the turret
 %   		\begin{enumerate}
 %   			\item 
 % 		\end{enumerate}
@@ -55,17 +55,25 @@
 \begin{center}
 \begin{minipage}[H]{0.9\linewidth}
 \begin{lstlisting}
-int bt[10]; //Blob top coordinat
-int bl[10]; //Blob left coordinat
-int bc[10]; //Blob color
-int bb[10]; //Blob bottom coordinat
-int br[10]; //Blob right coordinat
-int nblobs; //Number of blobs
-int blobsMissedCounter = 0;
-int oldBlobCenter = 0;
-int blobCenter = 0;
-lib_direction = 0; // [1]Left, [1]Right, [0]Nothing
-int directionCount = 0; //How many times have we seen movement in a direction
+while(track){
+	NXTCam_GetBlobs(CAM_PORT, CAM_ADDR, nblobs, bc, bl, bt, br, bb);
+    if(nblobs > 0){
+    	blobInCam = true;
+        ....
+        if(lib_direction != NO_DIRECTION){
+        	tempSpeed = GetSpeed(blobCenter );
+            if(tempSpeed > 0 && lib_direction == RIGHT_DIRECTION)
+            	OnFwd(ROTATE_MOTOR, tempSpeed);
+            else if(tempSpeed < 0 && lib_direction == LEFT_DIRECTION)
+            	OnFwd(ROTATE_MOTOR, tempSpeed);
+        }
+	}else{
+    	blobInCam = false;
+        ...
+    	Off(ROTATE_MOTOR);
+	}
+    DetermineDirection(blobCenter, oldBlobCenter, directionCount);
+}
 \end{lstlisting} 
 \end{minipage}
 \end{center}
@@ -90,7 +98,24 @@ int directionCount = 0; //How many times have we seen movement in a direction
 \begin{center}
 \begin{minipage}[H]{0.9\linewidth}
 \begin{lstlisting}
-
+while(collecting){
+	if(blobInCam){
+        if(length != NO_DATA){
+            if(MakePosData(length,GetMotorAngle(),CurrentTick(),tempPosData)){
+            	posData[posDataCounter] = tempPosData;
+                posDataCounter++;
+            }
+            if(posDataCounter == DATASETS_NEEDED_TO_CALCULATE){
+				track = false;
+                Off(ROTATE_MOTOR); 
+                StopTask(Track);
+                DirectionVector vector = CalcDirVector(posData,posDataCounter);
+                fire = CalcFireData(CalcFuturePos(vector,MILLISECONDS_TO_HIT));
+                StartTask(WaitAndFire);
+            }
+    	}
+	}
+}
 \end{lstlisting} 
 \end{minipage}
 \end{center}
@@ -115,7 +140,23 @@ int directionCount = 0; //How many times have we seen movement in a direction
 \begin{center}
 \begin{minipage}[H]{0.9\linewidth}
 \begin{lstlisting}
-
+collecting = false;
+LoadRound();
+Off(ROTATE_MOTOR);
+RotateH(fire.angleH);
+Angle(fire.angleV);
+while(true){
+	if(CurrentTick() >= fire.timeToHit && !alreadyFired){
+    	alreadyFired = true;
+        Fire();
+        break;
+    }
+}
+Angle(START_ANGLE);
+...
+Wait(4000);
+StartTask(Track);
+StartTask(GetDataAndCalculate);
 \end{lstlisting} 
 \end{minipage}
 \end{center}
@@ -123,32 +164,101 @@ int directionCount = 0; //How many times have we seen movement in a direction
 \end{frame}
 
 \subsection{Unit test}
-\begin{frame}{Unit test}
+\begin{frame}[fragile]{Unit test}
 \begin{itemize}
-  \only<1->{\item How have we tested}
-  \only<2->{\item No framework}
-  \only<3->{\item What have we tested}
-  \only<4>{\item Results} 
+  \only<1-2,5-7>{\item How have we tested}
+  \only<2-2,5-7>{\item No framework}
+  \only<5-7>{\item What have we tested}
+  			\only<6>{
+  			\begin{enumerate}
+  				\item CalcDirVector
+  				\item UpperBound
+  				\item CheckLength
+  				\item GetSpeed
+  				\item And more\ldots
+  			\end{enumerate}
+  			}
+  \only<7-8>{\item Results} 
 \end{itemize}
-%todo missing a few things
+\begin{onlyenv}<3>
+\begin{center}
+\begin{minipage}[H]{0.9\linewidth}
+\begin{lstlisting}
+bool CombineVectorsTest2(){
+	DirectionVector input1;
+	input1.speedX = 10;
+  	input1.speedY = 10;
+  	input1.xPos = 15;
+  	input1.yPos = 15;
+
+  	DirectionVector dirVecArray[1];
+  	dirVecArray[0] = input1;
+  	DirectionVector out = CombineVectors(dirVecArray, 1);
+
+  	if(out.speedX == 10 && out.speedY == 10 && out.xPos == 15, out.yPos == 15){
+    	return true;
+  	}
+  	else {
+    	return false;
+  	}
+}
+
+bool UpperBoundTest(int input, int expected){
+	int out = UpperBound(input);
+
+  	return Assert(out, expected);
+}
+\end{lstlisting} 
+\end{minipage}
+\end{center}
+\end{onlyenv}
+\begin{onlyenv}<4>
+\begin{center}
+\begin{minipage}[H]{0.9\linewidth}
+\begin{lstlisting}
+task main(){
+	unsigned int rtn_code = CreateFile(NAME, SIZE, handle);
+   	if (rtn_code == LDR_FILEEXISTS)
+     	rtn_code = OpenFileAppend(NAME, SIZE, handle);
+  	...
+ 	if(UpperBoundTest(130, 130)){
+    	WriteLn(handle, "UpperBoundTest: Passed");
+  	}
+ 	else{
+    	WriteLn(handle, "UpperBoundTest: Failed");
+  	}
+  	if(UpperBoundTest(240, 144)){
+    	WriteLn(handle, "UpperBoundTest2: Passed");
+  	}
+  	else{
+    	WriteLn(handle, "UpperBoundTest2: Failed");
+  	}
+  	if(CombineVectorsTest2()){
+    	WriteLn(handle, "CombineVectorsTest2: Passed");
+  	}
+  	else{
+    	WriteLn(handle, "CombineVectorsTest2: Failed");
+  	}
+  	...
+  	CloseFile(handle);
+}
+\end{lstlisting} 
+\end{minipage}
+\end{center}
+\end{onlyenv}
+\only<8>{
+\begin{figure}[H]
+  \includegraphics[scale=0.5]{figures/result.png}
+\end{figure}
+}
 \end{frame}
 
-\subsection{Hardware tests}
-\begin{frame}{Hardware tests}
+\subsection{Final test}
+\begin{frame}{Final test}
 \begin{itemize}
-  \only<1->{\item How far the turret can shoot}
-  \only<2>{\item How good the turret hits the target} 
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Fireing Distance test}
-\begin{itemize}
-  \item 
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Accuracy test}
-\begin{itemize}
-  \item 
+  \only<1->{\item Setup}
+  \only<2->{\item Execution}
+  \only<3->{\item Observations}
+  \only<4->{\item Result}
 \end{itemize}
 \end{frame}
