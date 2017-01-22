@@ -166,10 +166,10 @@ StartTask(GetDataAndCalculate);
 \subsection{Unit test}
 \begin{frame}[fragile]{Unit test}
 \begin{itemize}
-  \only<1-2,5-7>{\item How have we tested}
-  \only<2-2,5-7>{\item No framework}
-  \only<5-7>{\item What have we tested}
-  			\only<6>{
+  \only<1-2,6-8>{\item How have we tested}
+  \only<2-2,6-8>{\item No framework}
+  \only<6-8>{\item What have we tested}
+  			\only<7>{
   			\begin{enumerate}
   				\item CalcDirVector
   				\item UpperBound
@@ -178,7 +178,7 @@ StartTask(GetDataAndCalculate);
   				\item And more\ldots
   			\end{enumerate}
   			}
-  \only<7-8>{\item Results} 
+  \only<8-9>{\item Results} 
 \end{itemize}
 \begin{onlyenv}<3>
 \begin{center}
@@ -246,7 +246,26 @@ task main(){
 \end{minipage}
 \end{center}
 \end{onlyenv}
-\only<8>{
+
+\begin{onlyenv}<5>
+\begin{itemize}
+  \item How have we tested
+  \item No framework
+  \begin{itemize}
+  \item Non testable function
+\end{itemize}
+\end{itemize}
+\begin{center}
+\begin{minipage}[H]{0.9\linewidth}
+\begin{lstlisting}
+float GetMotorAngle(){
+    return MotorRotationCount(ROTATE_MOTOR)*0.73;
+}
+\end{lstlisting} 
+\end{minipage}
+\end{center}
+\end{onlyenv}
+\only<9>{
 \begin{figure}[H]
   \includegraphics[scale=0.5]{figures/result.png}
 \end{figure}
@@ -256,9 +275,14 @@ task main(){
 \subsection{Final test}
 \begin{frame}{Final test}
 \begin{itemize}
-  \only<1->{\item Setup}
-  \only<2->{\item Execution}
-  \only<3->{\item Observations}
+  \only<1-4>{\item Setup}
+  \only<2-4>{\item Execution}
+  \only<3-4>{\item Observations}
   \only<4->{\item Result}
+  \only<5>{
+\begin{figure}[H]
+  \includegraphics[scale=0.5]{figures/finalTestResult.png}
+\end{figure}
+}
 \end{itemize}
 \end{frame}
