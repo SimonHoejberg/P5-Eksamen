@@ -35,16 +35,33 @@
 		\includegraphics[scale=0.26]{figures/SequenceDiagram.png}
 	\end{figure}
 }
+\only<3>{
+	\begin{figure}[H]
+		\includegraphics[scale=0.2]{figures/CallStack.png}
+	\end{figure}
+}
 \end{onlyenv}
 \end{frame}
 
 \subsection{Physics Implementation}
-\begin{frame}{Physics Implementation}
-% 	\begin{minipage}[H]{0.9\linewidth}
-% \begin{lstlisting}
-% float GetMotorAngle(){
-%     return MotorRotationCount(ROTATE_MOTOR)*0.73;
-% }
-% \end{lstlisting} 
-% \end{minipage}
+\begin{frame}[fragile]{Physics Implementation}
+\begin{minipage}[H]{0.9\linewidth}
+ \begin{lstlisting}
+PosData CalcFuturePos(DirectionVector vector, unsigned long time){
+   PosData futurePosition;
+   float tanInput = 0;
+   futurePosition.xPos = vector.xPos + vector.speedX * time;
+   futurePosition.yPos = vector.yPos + vector.speedY * time;
+   futurePosition.time = CurrentTick() + time;
+
+   tanInput = futurePosition.yPos / futurePosition.xPos;
+   if(futurePosition.xPos >= 0)
+        futurePosition.angle = 90+(atand(tanInput))*(-1);
+   else
+        futurePosition.angle = (90-(atand(tanInput))*(-1))*(-1);
+   
+   return futurePosition;
+}
+ \end{lstlisting} 
+\end{minipage}
 \end{frame}
