@@ -1,10 +1,10 @@
 \section{Simon}
-\begin{frame}{Simon}
+\subsection{Overview}
+\begin{frame}{Simon: Overview}
 	\begin{itemize}
 	  \item Programming language
 	  \item Hardware/software architecture
 	  \item Physics implementation
-	  \item Tasks/threads
 	\end{itemize}
 \end{frame}
 
@@ -14,10 +14,23 @@
 	  \item Choosing a programming language
 	  \begin{itemize}
 	  	\item NXC
+	  	\item Pros
+	  	\begin{itemize}
+	  	  \item Low level 
+	  	  \item C-like
+	  	\end{itemize}
+	  	\item Cons
+	  	\begin{itemize}
+	  	  \item Bad documentation
+	  	  \item No control over the scheduler
+	  	  \item No unit test environment
+	  	  \item No debugger
+	  	\end{itemize}
 	  \end{itemize}
 	  \item Alternatives
 	  \begin{itemize}
 	    \item leJos
+	    \item ROBOTC
 	  \end{itemize}
 	\end{itemize}
 \end{frame}
@@ -26,24 +39,40 @@
 \begin{frame}{Hardware/Software Architecture}
 \begin{onlyenv}
 \only<1>{
+\begin{itemize}
+  \item Hardware Architecture 
+\end{itemize}
 	\begin{figure}[H]
   		\includegraphics[scale=0.45]{figures/HARCH.png}
 	\end{figure}
 	}
 \only<2>{
+\begin{itemize}
+  \item Software Architecture
+  \item Calls through the software
+\end{itemize}
 	\begin{figure}[H]
 		\includegraphics[scale=0.26]{figures/SequenceDiagram.png}
-	\end{figure}
-}
-\only<3>{
-	\begin{figure}[H]
-		\includegraphics[scale=0.2]{figures/CallStack.png}
 	\end{figure}
 }
 \end{onlyenv}
 \end{frame}
 
 \subsection{Physics Implementation}
+\begin{frame}{Physics Implementation}
+\begin{equation}\label{locEq3}
+a_{positive}=90+(tan^{-1}(\frac{y_{pos}}{x_{pos}}))*(-1)
+\end{equation} 
+\begin{equation}\label{locEq4}
+a_{negative}=(90-(tan^{-1}(\frac{y_{pos}}{x_{pos}})*(-1))*(-1)
+\end{equation} 
+
+\begin{figure}[H]
+	\includegraphics[scale=0.25]{figures/CoordinateSystem3.png}
+\end{figure}
+
+\end{frame}
+
 \begin{frame}[fragile]{Physics Implementation}
 \begin{center}
 \begin{minipage}[H]{0.9\linewidth}
