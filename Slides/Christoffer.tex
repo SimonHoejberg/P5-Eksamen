@@ -8,7 +8,7 @@
 % \end{itemize}
 % \end{frame}
 
-\begin{frame}{Christoffer}
+\begin{frame}{Christoffer: Overview}
 \begin{itemize}
   \item The tasks of our program
   		\begin{enumerate}
@@ -40,19 +40,28 @@
 \end{frame}
 
 \begin{frame}[fragile]{Main}
-\only<1-3>{
+\only<1>{
 \begin{itemize}
   \item Purpose
-  	\only<2>{
   	\begin{itemize}
   		\item Start tasks
   		\item Setup
   	\end{itemize}
-  	}
-  \only<3>{\item Key implementation points}
+  \item Key implementation points
+  	\begin{itemize}
+  		\item Setup sensors
+  		\item Setup / Start camera
+	\end{itemize}
 \end{itemize}
 }
-\begin{onlyenv}<4>
+\begin{onlyenv}<2>
+\begin{itemize}
+  \item Key implementation points
+  	\begin{itemize}
+  		\item Setup sensors
+  		\item Setup / Start camera
+	\end{itemize}
+\end{itemize}
 \begin{center}
 \begin{minipage}[H]{0.9\linewidth}
 \begin{lstlisting}
@@ -72,19 +81,32 @@ Precedes(Track,GetDataAndCalculate);
 \end{frame}
 
 \begin{frame}[fragile]{Track}
-\only<1-3>{
+\only<1>{
 \begin{itemize}
   \item Purpose
-  	\only<2>{
   	\begin{itemize}
   		\item Track targets
   		\item Information sharing
   	\end{itemize}
-  	}
-  \only<3>{\item Key implementation points}
+  \item Key implementation points
+  	\begin{itemize}
+  		\item Camera interaction
+  		\item Target present
+  		\item Determin Direction
+  		\item Turn turret 
+	\end{itemize}
 \end{itemize}
 }
-\begin{onlyenv}<4>
+\begin{onlyenv}<2>
+\begin{itemize}
+  \item Key implementation points
+  	\begin{itemize}
+  		\item Camera interaction
+  		\item Target present
+  		\item Determine Direction
+  		\item Turn turret 
+	\end{itemize}
+\end{itemize}
 \begin{center}
 \begin{minipage}[H]{0.9\linewidth}
 \begin{lstlisting}
@@ -114,20 +136,31 @@ while(track){
 \end{frame}
 
 \begin{frame}[fragile]{GetDataAndCalculate}
-\only<1-3>{
+\only<1>{
 \begin{itemize}
   \item Purpose
-  	\only<2>{
   	\begin{itemize}
   		\item Collect data
   		\item Calculate vectors and positions
   		\item Determine the shooting position
   	\end{itemize}
-  	}
-  \only<3>{\item Key implementation points}
+	\item Key implementation points
+		\begin{itemize}
+  			\item Busy wait 
+  			\item Make position data
+  			\item Calculate fire position 
+		\end{itemize}
 \end{itemize}
 }
-\begin{onlyenv}<4>
+\begin{onlyenv}<2>
+\begin{itemize}
+	\item Key implementation points
+		\begin{itemize}
+  			\item Busy wait 
+  			\item Make position data
+  			\item Calculate fire position 
+		\end{itemize}
+\end{itemize}
 \begin{center}
 \begin{minipage}[H]{0.9\linewidth}
 \begin{lstlisting}
@@ -156,20 +189,33 @@ while(collecting){
 \end{frame}
 
 \begin{frame}[fragile]{WaitAndFire}
-\only<1-3>{
+\only<1>{
 \begin{itemize}
   \item Purpose
-  	\only<2>{
   	\begin{itemize}
   		\item Wait until the calculated time
   		\item Shoot the target at the calculated position
   		\item Reset the turret
   	\end{itemize}
-  	}
-  \only<3>{\item Key implementation points}
+  \item Key implementation points
+  	\begin{itemize}
+  		\item Stop GetDataAndCalculate
+  		\item Load / Rotate and Angle
+  		\item Busy wait to fire
+  		\item Reset / Start tasks 
+	\end{itemize}
 \end{itemize}
 }
-\begin{onlyenv}<4>
+\begin{onlyenv}<2>
+\begin{itemize}
+  \item Key implementation points
+  	\begin{itemize}
+  		\item Stop GetDataAndCalculate
+  		\item Load / Rotate and Angle
+  		\item Busy wait to fire
+  		\item Reset / Start tasks 
+	\end{itemize}
+\end{itemize}
 \begin{center}
 \begin{minipage}[H]{0.9\linewidth}
 \begin{lstlisting}
@@ -199,10 +245,9 @@ StartTask(GetDataAndCalculate);
 \subsection{Unit Test}
 \begin{frame}[fragile]{Unit Test}
 \begin{itemize}
-  \only<1-2,6-8>{\item How have we tested}
-  \only<2-2,6-8>{\item No framework}
-  \only<6-8>{\item What have we tested}
-  			\only<7>{
+  \only<1,4>{\item How have we tested}
+  \only<1,4>{\item No framework}
+  \only<1,4>{\item What have we tested
   			\begin{enumerate}
   				\item CalcDirVector
   				\item UpperBound
@@ -211,9 +256,9 @@ StartTask(GetDataAndCalculate);
   				\item And more\ldots
   			\end{enumerate}
   			}
-  \only<8-9>{\item Results} 
+  \only<1,4>{\item Results} 
 \end{itemize}
-\begin{onlyenv}<3>
+\begin{onlyenv}<2>
 \begin{center}
 \begin{minipage}[H]{0.9\linewidth}
 \begin{lstlisting}
@@ -245,7 +290,7 @@ bool UpperBoundTest(int input, int expected){
 \end{minipage}
 \end{center}
 \end{onlyenv}
-\begin{onlyenv}<4>
+\begin{onlyenv}<3>
 \begin{center}
 \begin{minipage}[H]{0.9\linewidth}
 \begin{lstlisting}
@@ -279,40 +324,16 @@ task main(){
 \end{minipage}
 \end{center}
 \end{onlyenv}
-
-\begin{onlyenv}<5>
-\begin{itemize}
-  \item How have we tested
-  \item No framework
-  \begin{itemize}
-  \item Non testable function
-\end{itemize}
-\end{itemize}
-\begin{center}
-\begin{minipage}[H]{0.9\linewidth}
-\begin{lstlisting}
-float GetMotorAngle(){
-    return MotorRotationCount(ROTATE_MOTOR)*0.73;
-}
-\end{lstlisting} 
-\end{minipage}
-\end{center}
-\end{onlyenv}
-\only<9>{
-\begin{figure}[H]
-  \includegraphics[scale=0.5]{figures/result.png}
-\end{figure}
-}
 \end{frame}
 
 \subsection{Final Test}
 \begin{frame}{Final Test}
 \begin{itemize}
-  \only<1-4>{\item Setup}
-  \only<2-4>{\item Execution}
-  \only<3-4>{\item Observations}
-  \only<4->{\item Result}
-  \only<5>{
+  \only<1>{\item Setup}
+  \only<1>{\item Execution}
+  \only<1>{\item Observations}
+  \only<1->{\item Result}
+  \only<2>{
 \begin{figure}[H]
   \includegraphics[scale=0.5]{figures/finalTestResult.png}
 \end{figure}
