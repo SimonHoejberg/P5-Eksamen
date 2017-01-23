@@ -6,7 +6,7 @@
 %    hideinstitute,       % hide the (short) institute in the bottom of the sidebar
 %    shownavsym,          % show the navigation symbols
 %    width=2cm,           % width of the sidebar (default is 2 cm)
-%    hideothersubsections,% hide all subsections but the subsections in the current section
+    hideothersubsections,% hide all subsections but the subsections in the current section
 %    hideallsubsections,  % hide all subsections
     left               % right of left position of sidebar (default is right)
 %%% options passed to the color theme
@@ -85,6 +85,8 @@
 \newcommand{\chref}[2]{%
   \href{#1}{{\usebeamercolor[bg]{AAUsidebar}#2}}%
 }
+
+\setcounter{tocdepth}{1}
 
 \title[ARES]% optional, use only with long paper titles
 {ARES}
